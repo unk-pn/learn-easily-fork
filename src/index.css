@@ -36,3 +36,40 @@
 
   color-scheme: dark;
 }
+
+/* ------------------------------------------------------------------ */
+/* Daylight theme (warm light, stone-based, indigo accents)           */
+/* Gray scale is semantically inverted: 950 = lightest (page bg),     */
+/* 50 = darkest (primary text), so existing classes "just work".      */
+/* ------------------------------------------------------------------ */
+[data-theme="daylight"] {
+  --gray-50: 28 25 23;
+  --gray-100: 41 37 36;
+  --gray-200: 68 64 60;
+  --gray-300: 87 83 78;
+  --gray-400: 120 113 108;
+  --gray-500: 168 162 158;
+  --gray-600: 196 191 186;
+  --gray-700: 221 218 213;
+  --gray-800: 240 238 234;
+  --gray-900: 248 246 243;
+  --gray-950: 253 252 250;
+
+  --primary-300: 129 140 248;
+  --primary-400: 99 102 241;
+  --primary-500: 79 70 229;
+  --primary-600: 67 56 202;
+
+  --accent-400: 217 119 6;
+  --accent-500: 180 83 9;
+
+  --green-400: 22 163 74;
+  --green-500: 21 128 61;
+
+  --purple-400: 147 51 234;
+  --purple-500: 126 34 206;
+
+  --red-400: 220 38 38;
+
+  color-scheme: light;
+}
