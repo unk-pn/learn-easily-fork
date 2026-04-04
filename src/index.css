@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------ */
-/* Midnight theme (dark, slate-based)                                 */
+/* Midnight theme (dark, slate-based, indigo accents)                 */
 /* ------------------------------------------------------------------ */
 [data-theme="midnight"] {
   --gray-50: 248 250 252;
@@ -17,6 +17,14 @@
   --gray-800: 30 41 59;
   --gray-900: 15 23 42;
   --gray-950: 2 6 23;
+
+  --primary-300: 165 180 252;
+  --primary-400: 129 140 248;
+  --primary-500: 99 102 241;
+  --primary-600: 79 70 229;
+
+  --accent-400: 251 191 36;
+  --accent-500: 245 158 11;
 
   color-scheme: dark;
 }
