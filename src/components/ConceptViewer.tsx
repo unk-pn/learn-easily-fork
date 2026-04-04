@@ -1,11 +1,13 @@
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Moon, Sun } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { getConcept } from '../concepts';
 import { useConcept } from '../hooks/useConcept';
+import { useTheme } from '../lib/theme';
 
 export function ConceptViewer() {
   const { conceptId } = useParams<{ conceptId: string }>();
   const concept = getConcept(conceptId ?? '');
+  const { theme, toggleTheme } = useTheme();
   const { currentStep, completedSteps, processingStep, isPlaying, play, pause, reset, next, prev, jumpTo } =
     useConcept(concept);
 
@@ -41,6 +43,14 @@ export function ConceptViewer() {
               Step {currentIndex + 1} of {stepIds.length}
             </p>
           </div>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-800/60 text-gray-400 hover:bg-gray-700/60 hover:text-gray-50 transition-colors"
+            title={theme === 'midnight' ? 'Switch to Daylight' : 'Switch to Midnight'}
+          >
+            {theme === 'midnight' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
         </div>
       </header>
       <div className="flex-1 flex items-center justify-center text-gray-500">
