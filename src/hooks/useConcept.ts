@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Concept } from '../lib/types';
 
 const STEP_DELAY_MS = 1200;
@@ -14,6 +14,17 @@ export function useConcept(concept: Concept | undefined) {
   const [processingStep, setProcessingStep] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const abortRef = useRef(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  // Reset when concept changes
+  const firstStepId = concept?.steps[0]?.id ?? '';
+  useEffect(() => {
+    setCurrentStep(firstStepId);
+    setCompletedSteps([]);
+    setProcessingStep(null);
+    setIsPlaying(false);
+    abortRef.current = true;
+  }, [firstStepId]);
 
   const play = useCallback(async () => {
     if (!stepIds.length) return;
@@ -42,6 +53,7 @@ export function useConcept(concept: Concept | undefined) {
     abortRef.current = true;
     setIsPlaying(false);
     setProcessingStep(null);
+    if (timerRef.current) clearTimeout(timerRef.current);
   }, []);
 
   const reset = useCallback(() => {
