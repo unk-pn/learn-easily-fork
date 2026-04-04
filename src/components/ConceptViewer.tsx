@@ -1,5 +1,5 @@
 import { ArrowLeft, Moon, Sun } from 'lucide-react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getConcept } from '../concepts';
 import { useConcept } from '../hooks/useConcept';
@@ -22,6 +22,32 @@ export function ConceptViewer() {
   const canNext = currentIndex < stepIds.length - 1;
   const canPrev = currentIndex > 0;
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') return;
+
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        next();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prev();
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        if (isPlaying) {
+          pause();
+        } else {
+          play();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [next, prev, play, pause, isPlaying]);
+
   if (!concept) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
@@ -39,6 +65,7 @@ export function ConceptViewer() {
 
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col">
+      {/* Top Bar */}
       <header className="border-b border-gray-800/60 bg-gray-950/90 backdrop-blur-xl z-10">
         <div className="flex items-center gap-3 px-4 py-3">
           <Link
@@ -64,7 +91,9 @@ export function ConceptViewer() {
         </div>
       </header>
 
+      {/* Main Content */}
       <div className="flex-1 flex flex-col sm:flex-row overflow-hidden">
+        {/* Left: Step Nav (desktop) */}
         <aside className="hidden sm:block w-60 lg:w-72 border-r border-gray-800/60 bg-gray-950/60 overflow-y-auto py-3 px-2">
           <StepNav
             steps={concept.steps}
@@ -75,6 +104,7 @@ export function ConceptViewer() {
           />
         </aside>
 
+        {/* Center: Visualization */}
         <main className="flex-1 relative overflow-hidden">
           <div className="absolute inset-0">
             <Visualization
@@ -85,6 +115,7 @@ export function ConceptViewer() {
             />
           </div>
 
+          {/* Control Bar overlay */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 rounded-xl border border-gray-700/50 bg-gray-900/80 backdrop-blur-xl px-4 py-2">
             <ControlBar
               isPlaying={isPlaying}
@@ -99,6 +130,7 @@ export function ConceptViewer() {
           </div>
         </main>
 
+        {/* Right: Detail Panel */}
         <aside className="hidden md:block w-80 lg:w-96 border-l border-gray-800/60 bg-gray-950/60 overflow-hidden">
           {concept.DetailPanel ? (
             <concept.DetailPanel
@@ -114,6 +146,7 @@ export function ConceptViewer() {
         </aside>
       </div>
 
+      {/* Bottom: Step Nav (mobile) */}
       <div className="sm:hidden border-t border-gray-800/60 bg-gray-950/90 backdrop-blur-xl overflow-x-auto py-2">
         <StepNav
           steps={concept.steps}
