@@ -10,6 +10,13 @@ export function useConcept(concept: Concept | undefined) {
   const [processingStep, setProcessingStep] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const reset = useCallback(() => {
+    setIsPlaying(false);
+    setProcessingStep(null);
+    setCompletedSteps([]);
+    setCurrentStep(stepIds[0] ?? '');
+  }, [stepIds]);
+
   const next = useCallback(() => {
     const idx = stepIds.indexOf(currentStep);
     if (idx < stepIds.length - 1) {
@@ -41,7 +48,7 @@ export function useConcept(concept: Concept | undefined) {
     isPlaying,
     play: () => {},
     pause: () => {},
-    reset: () => {},
+    reset,
     next,
     prev,
     jumpTo,
