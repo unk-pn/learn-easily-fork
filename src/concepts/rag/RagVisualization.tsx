@@ -16,9 +16,6 @@ import {
 import type { VisualizationProps } from '../../lib/types';
 import { ragSteps } from './steps';
 
-// ---------------------------------------------------------------------------
-// Icon map
-// ---------------------------------------------------------------------------
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   FileText,
   Scissors,
@@ -30,9 +27,6 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Sparkles,
 };
 
-// ---------------------------------------------------------------------------
-// Custom node
-// ---------------------------------------------------------------------------
 interface PipelineNodeData {
   label: string;
   icon: string;
@@ -100,114 +94,10 @@ function PipelineStepNode({ data }: NodeProps<PipelineNode>) {
 
 const nodeTypes = { pipeline: PipelineStepNode };
 
-// ---------------------------------------------------------------------------
-// Main visualization
-// ---------------------------------------------------------------------------
-
-const COLS = 4;
-const GAP_X = 210;
-const GAP_Y = 160;
-
 export function RagVisualization({ currentStep, completedSteps, processingStep }: VisualizationProps) {
-  const nodes = useMemo<PipelineNode[]>(
-    () =>
-      ragSteps.map((step, i) => {
-        const row = Math.floor(i / COLS);
-        const col = i % COLS;
-        // Reverse every other row for a snake/zigzag layout
-        const x = (row % 2 === 1 ? COLS - 1 - col : col) * GAP_X;
-        const y = row * GAP_Y;
-        return {
-          id: step.id,
-          type: 'pipeline' as const,
-          position: { x, y },
-          data: {
-            label: step.label,
-            icon: step.icon,
-            isActive: currentStep === step.id,
-            isCompleted: completedSteps.includes(step.id),
-            isProcessing: processingStep === step.id,
-            stepIndex: i,
-          },
-          draggable: false,
-          selectable: false,
-          connectable: false,
-        };
-      }),
-    [currentStep, completedSteps, processingStep],
-  );
-
-  const edges = useMemo<Edge[]>(
-    () =>
-      ragSteps.slice(0, -1).map((step, i) => {
-        const next = ragSteps[i + 1];
-        const sourceCompleted = completedSteps.includes(step.id);
-        const targetActive = currentStep === next.id || processingStep === next.id;
-        const isLive = sourceCompleted || targetActive;
-
-        const srcRow = Math.floor(i / COLS);
-        const tgtRow = Math.floor((i + 1) / COLS);
-        const isRowTransition = srcRow !== tgtRow;
-        const isReversedRow = srcRow % 2 === 1;
-
-        let sourceHandle = 'right';
-        let targetHandle = 'left';
-        if (isRowTransition) {
-          sourceHandle = 'bottom';
-          targetHandle = 'top';
-        } else if (isReversedRow) {
-          sourceHandle = 'left';
-          targetHandle = 'right';
-        }
-
-        return {
-          id: `${step.id}-${next.id}`,
-          source: step.id,
-          target: next.id,
-          sourceHandle,
-          targetHandle,
-          type: 'smoothstep',
-          animated: isLive,
-          style: {
-            stroke: sourceCompleted
-              ? 'rgb(var(--green-400))'
-              : isLive
-                ? 'rgb(var(--primary-400))'
-                : 'rgb(var(--gray-600))',
-            strokeWidth: isLive ? 2.5 : 1.5,
-            opacity: isLive ? 1 : 0.4,
-          },
-        };
-      }),
-    [currentStep, completedSteps, processingStep],
-  );
-
-  const onInit = useCallback((instance: { fitView: (opts?: Record<string, unknown>) => void }) => {
-    instance.fitView({ padding: 0.35 });
-  }, []);
-
   return (
     <div className="w-full h-full">
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        onInit={onInit}
-        fitView
-        fitViewOptions={{ padding: 0.35 }}
-        nodesDraggable={false}
-        nodesConnectable={false}
-        elementsSelectable={false}
-        panOnDrag={false}
-        zoomOnScroll={false}
-        zoomOnPinch={false}
-        zoomOnDoubleClick={false}
-        preventScrolling={false}
-        proOptions={{ hideAttribution: true }}
-        style={{ background: 'transparent' }}
-      >
-        <Background color="rgb(var(--gray-700) / 0.3)" gap={24} size={1} />
-      </ReactFlow>
+      <p className="text-gray-500 text-center pt-20">RAG Visualization (WIP)</p>
     </div>
   );
 }
