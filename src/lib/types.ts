@@ -14,3 +14,12 @@ export const Difficulty = {
 } as const;
 
 export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty];
+
+export interface ConceptStep {
+  id: string;
+  label: string;
+  description: string;
+  educationalText: string;
+  deepDiveText: string;
+  icon: string;
+}
