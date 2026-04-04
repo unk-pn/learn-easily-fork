@@ -1,7 +1,10 @@
-import { BookOpen } from 'lucide-react';
+import { BookOpen, ChevronDown, ChevronUp, Lightbulb } from 'lucide-react';
+import { useState } from 'react';
 import type { ConceptStep } from '../lib/types';
 
 export function StepDetailPanel({ step }: { step: ConceptStep | undefined }) {
+  const [deepDiveOpen, setDeepDiveOpen] = useState(false);
+
   if (!step) return null;
 
   return (
@@ -22,6 +25,29 @@ export function StepDetailPanel({ step }: { step: ConceptStep | undefined }) {
               <p className="text-sm text-gray-300 leading-relaxed">{step.educationalText}</p>
             </div>
           </div>
+        </div>
+
+        <div className="rounded-xl border border-gray-700/50 bg-gray-800/30">
+          <button
+            type="button"
+            onClick={() => setDeepDiveOpen(!deepDiveOpen)}
+            className="flex w-full items-center justify-between p-4 text-left"
+          >
+            <div className="flex items-center gap-2">
+              <Lightbulb className="h-4 w-4 text-accent-500" />
+              <span className="text-sm font-medium text-gray-200">Deep Dive</span>
+            </div>
+            {deepDiveOpen ? (
+              <ChevronUp className="h-4 w-4 text-gray-400" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-gray-400" />
+            )}
+          </button>
+          {deepDiveOpen && (
+            <div className="px-4 pb-4">
+              <p className="text-sm text-gray-400 leading-relaxed">{step.deepDiveText}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
