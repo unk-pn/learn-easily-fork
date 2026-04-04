@@ -1,8 +1,12 @@
+import { ThemeProvider } from './lib/theme';
+
 function App() {
   return (
-    <div>
-      <h1>Learn Easily</h1>
-    </div>
+    <ThemeProvider>
+      <div>
+        <h1>Learn Easily</h1>
+      </div>
+    </ThemeProvider>
   );
 }
 
