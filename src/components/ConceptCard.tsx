@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Brain, Database, GitBranch, Server } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import type { Concept } from '../lib/types';
 
 const categoryIcons: Record<string, typeof Brain> = {
