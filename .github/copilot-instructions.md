@@ -7,7 +7,7 @@ This is "Learn Easily" — a React + TypeScript + Vite SPA for interactive conce
 ## Build & Dev
 
 ```bash
-yarn install         # Install dependencies (NOT npm)
+yarn install         # Install dependencies
 yarn dev             # Dev server at localhost:3000
 yarn build           # tsc -b && vite build (must pass with 0 errors)
 yarn lint            # Biome check (must pass with 0 errors)

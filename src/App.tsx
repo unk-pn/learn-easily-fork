@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router';
 import { ConceptViewer } from './components/ConceptViewer';
 import { HomePage } from './components/HomePage';
 import { NotFound } from './components/NotFound';

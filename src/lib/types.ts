@@ -24,6 +24,7 @@ export interface ConceptStep {
   educationalText: string;
   deepDiveText: string;
   icon: string;
+  codeSnippets?: Record<string, string>;
 }
 
 export interface VisualizationProps {

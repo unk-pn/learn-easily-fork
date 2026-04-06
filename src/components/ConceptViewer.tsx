@@ -1,6 +1,6 @@
 import { ArrowLeft, Moon, Sun } from 'lucide-react';
 import { useEffect, useMemo } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import { getConcept } from '../concepts';
 import { useConcept } from '../hooks/useConcept';
 import { useTheme } from '../lib/theme';
@@ -53,7 +53,7 @@ export function ConceptViewer() {
   const Visualization = concept.Visualization;
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col">
+    <div className="h-screen overflow-hidden bg-gray-950 flex flex-col">
       {/* Top Bar */}
       <header className="border-b border-gray-800/60 bg-gray-950/90 backdrop-blur-xl z-10">
         <div className="flex items-center gap-3 px-4 py-3">
@@ -106,7 +106,7 @@ export function ConceptViewer() {
         </main>
 
         {/* Right: Detail Panel */}
-        <aside className="hidden md:flex md:flex-col w-80 lg:w-96 border-l border-gray-800/60 bg-gray-950/60 overflow-y-auto">
+        <aside className="hidden md:flex md:flex-col w-[26rem] lg:w-[32rem] border-l border-gray-800/60 bg-gray-950/60 overflow-y-auto">
           {concept.DetailPanel ? (
             <concept.DetailPanel
               step={currentStepData}
